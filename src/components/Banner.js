@@ -18,7 +18,7 @@ const Banner = () => {
           </div>
           <div className="banner-image">
             <img src={profile} alt="Talha Khan" className="profile-img" />
-            <div className="profile-bg"></div>
+            <div className="profile-bg profile-background"></div>
           </div>
         </div>
       </div>
