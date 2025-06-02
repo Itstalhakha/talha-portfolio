@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import '../assets/css/style.css';
+import config from '../config';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -26,11 +27,12 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch(`${config.API_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(formData),
       });
 
@@ -40,14 +42,14 @@ const LoginPage = () => {
         throw new Error(data.message || 'Login failed');
       }
 
-      // Store the token in localStorage
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
+      // Store the token and user data
+      localStorage.setItem(config.AUTH_TOKEN_KEY, data.token);
+      localStorage.setItem(config.USER_DATA_KEY, JSON.stringify(data.user));
 
       // Redirect to home page
       navigate('/');
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'Failed to connect to the server. Please try again later.');
     } finally {
       setLoading(false);
     }

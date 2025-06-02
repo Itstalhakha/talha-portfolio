@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import '../assets/css/style.css';
+import config from '../config';
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -31,14 +32,20 @@ const SignupPage = () => {
       return;
     }
 
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/signup', {
+      const response = await fetch(`${config.API_URL}/auth/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
@@ -52,14 +59,14 @@ const SignupPage = () => {
         throw new Error(data.message || 'Signup failed');
       }
 
-      // Store the token in localStorage
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
+      // Store the token and user data
+      localStorage.setItem(config.AUTH_TOKEN_KEY, data.token);
+      localStorage.setItem(config.USER_DATA_KEY, JSON.stringify(data.user));
 
       // Redirect to home page
       navigate('/');
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'Failed to connect to the server. Please try again later.');
     } finally {
       setLoading(false);
     }
