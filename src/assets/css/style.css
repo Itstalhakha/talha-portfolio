@@ -341,19 +341,39 @@
   .profile-img {
     width: 250px;
     height: 250px;
+    animation: fadeIn 1s ease-in;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .profile-img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
   }
 
   .profile-bg {
-    width: 270px;
-    height: 270px;
-    margin-bottom: 150px;
+    display: none;
+  }
+
+  .banner-content {
+    gap: 3rem;
+  }
+
+  .banner-buttons {
+    margin-top: 1rem;
   }
 }
-@media screen and  (max-width: 479px){
-  .profile-bg {
-    padding: 300px;
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
+
 /* Services Styles */
 .services {
   padding: 5rem 2rem;
