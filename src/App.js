@@ -8,9 +8,6 @@ import SkillsPage from './pages/SkillsPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import ServicesPage from './pages/ServicesPage';
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
-import ProtectedRoute from './components/ProtectedRoute';
 import Footer from './components/Footer';
 import './App.css';
 
@@ -20,7 +17,7 @@ function App() {
       <div className="App">
         <Navbar />
         <Routes>
-          {/* Public Routes */}
+          {/* All Routes are now public */}
           <Route path="/" element={
             <>
               <Banner />
@@ -29,25 +26,9 @@ function App() {
             </>
           } />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-
-          {/* Protected Routes */}
-          <Route path="/skills" element={
-            <ProtectedRoute>
-              <SkillsPage />
-            </ProtectedRoute>
-          } />
-          <Route path="/about" element={
-            <ProtectedRoute>
-              <AboutPage />
-            </ProtectedRoute>
-          } />
-          <Route path="/services" element={
-            <ProtectedRoute>
-              <ServicesPage />
-            </ProtectedRoute>
-          } />
+          <Route path="/skills" element={<SkillsPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/services" element={<ServicesPage />} />
         </Routes>
         <Footer />
       </div>

@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const authRoutes = require('./routes/auth');
 
 // Load environment variables
 dotenv.config();
@@ -12,27 +11,17 @@ const app = express();
 // CORS configuration
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-vercel-domain.vercel.app', 'https://www.your-vercel-domain.vercel.app']
+    ? 'https://*.vercel.app'
     : 'http://localhost:3000',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+  credentials: true,
+  optionsSuccessStatus: 200
 };
 
 // Middleware
 app.use(cors(corsOptions));
 app.use(express.json());
-
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://talhakhangigyani4:1234567890542654@portfolio.f1mddwz.mongodb.net/portfolio', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('Connected to MongoDB'))
-.catch((err) => console.error('MongoDB connection error:', err));
-
-// Routes
-app.use('/api/auth', authRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
